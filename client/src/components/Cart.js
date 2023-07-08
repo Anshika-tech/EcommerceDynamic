@@ -32,6 +32,7 @@ const Cart = ({cart,setCart,handleChange}) => {
 
       </div>
 
+    
       <div>
         <button onClick={()=>handleChange(item,1)}>+</button>
         <button>{item.amount}</button>
@@ -49,7 +50,7 @@ const Cart = ({cart,setCart,handleChange}) => {
      ))
      }
      <div className='total'>
-      <span>Total price of cart</span>
+      <span>Total price</span>
       <span>Rs-{price}</span>
 
      </div>
@@ -57,4 +58,4 @@ const Cart = ({cart,setCart,handleChange}) => {
   )
 }
 
-export default Cart
+export default Cart;

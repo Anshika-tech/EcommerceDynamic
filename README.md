@@ -1,3 +1,1 @@
-# EcommerceDynamic
-
-Frontend Backend React shopping website
+Mern shopping website

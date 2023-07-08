@@ -5,8 +5,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import PhoneIcon from '@material-ui/icons/Phone';
 import EmailIcon from '@material-ui/icons/Email'
 import Footer from '../components/Footer';
-
-
+import {useNavigate} from 'react-router-dom';
 
 
 const Contact = () => {
@@ -14,6 +13,7 @@ const Contact = () => {
   const [userData,setUserData]=useState({firstname:"",email:"",phone:"",message:""});
   const userContact=async()=>{
     try{
+
         const res=await fetch('/getdata',{
           method:"GET",
           headers:{
@@ -31,7 +31,6 @@ const Contact = () => {
         }
     }catch(err){
      console.log(err);
-    
     }
   }
 
@@ -43,12 +42,14 @@ const Contact = () => {
   const handleInputs=(e)=>{
     const name=e.target.name;
     const value=e.target.value;
-
+    
     setUserData({...userData,[name]:value})
   }
 
+  const navigate=useNavigate();
   //send the data to backend
    const contactForm=async (e)=>{
+    try{
     e.preventDefault();
 
     const {firstname,email,phone,message}=userData;
@@ -64,14 +65,17 @@ const Contact = () => {
     
     });
     const data= await res.json();
-    if(!data){
-      console.log("meassage not sent");
+    if(res.status==200){
+      window.alert("please fill message");
     }
     else{
       alert("Message sent");
       setUserData({...userData,message:""})
     }
-
+  }catch{
+    alert("please log in");
+    navigate('/login');
+  }
    }
 
   return (
@@ -161,7 +165,7 @@ const Contact = () => {
                        <textarea className='text_field contact-form-message' id="" value={userData.message} 
                        name='message'
                        onChange={handleInputs}
-                       cols="80" rows="9" placeholder='Enter your Message'></textarea>
+                       cols="80" rows="9" placeholder='Enter your Message' required></textarea>
                   </div>
 
                   <div className='contact-form-button'>

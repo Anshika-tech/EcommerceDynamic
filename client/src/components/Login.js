@@ -29,7 +29,10 @@ const Login = () => {
 
           const data=res.json();
 
-          if(res.status===400||!data){
+          if(res.status===400){
+            window.alert("please fill the data");
+          }
+          else if(res.status===401){
             window.alert("Invalid credentials");
           }
           else{

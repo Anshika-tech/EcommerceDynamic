@@ -20,7 +20,7 @@ const Signup = () => {
        console.log(e);
          name=e.target.name;
          value=e.target.value
-
+          
          setUser({...user,[name]:value})
       }
 
@@ -38,15 +38,45 @@ const Signup = () => {
          })
         });
 
+        const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        const emailcheck=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
         const data=await res.json();
         if(res.status===422||!data){
-           window.alert("Invalid registration");
+           window.alert("please fill the data");
            console.log("Invalid registration");
 
         }
-        else if(res.status===401){
-          window.alert("password are not same");
+        else if(firstname.length<2||firstname.length>20){
+          window.alert("length of firstname should be in between 2 to 20 characters");
         }
+        else if(specialChars.test(firstname)||/\d/.test(firstname)){
+          window.alert("firstname should not have any special character or number");
+        }
+        else if(lastname.length<2||lastname.length>20){
+          window.alert("length of lastname should be in between 2 to 20 characters");
+        }
+        else if(specialChars.test(lastname)||/\d/.test(lastname)){
+          window.alert("lastname should not have any special character or number");
+        }
+        else if(!emailcheck.test(email)){
+           window.alert("Invalid email");
+        }
+        else if(!(gender=="Male"||gender=="male"||gender=="Female"||gender=="female"||gender=="Other"||gender=="other")){
+          window.alert("Invalid Gender " +`${gender}`);
+        }
+        else if(phone.length!=10){
+          window.alert("Enter 10 digit Mobile number");
+        }
+        else if(age<=0||age>120){
+          window.alert("Invalid Age");
+        }
+        else if(res.status===401){
+          window.alert("password must be same");
+        }
+      else if(res.status===400){
+        window.alert("Email already exist");
+      }
       
         else{
         window.alert("registrtion successful");
@@ -110,7 +140,7 @@ const Signup = () => {
                     value={user.email}
                     onChange={handleInputs}
                     autoComplete="off"
-                    placeholder="Your email"
+                    placeholder="example@domain.com"
                    
                   />
                 </div>
@@ -126,7 +156,7 @@ const Signup = () => {
                     autoComplete="off"
                     value={user.gender}
                     onChange={handleInputs}
-                    placeholder="Male/Female/other"
+                    placeholder="Male/Female/Other"
                    
                   />
                 </div>
@@ -142,7 +172,6 @@ const Signup = () => {
                     onChange={handleInputs}
                     placeholder="Your phone"
                     
-                    // /^(?:(?:\+|0{0,2})91(\s*|[\-])?|[0]?)?([6789]\d{2}([ -]?)\d{3}([ -]?)\d{4})$\
                     
                   />
                 </div>
